@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyPointOfInterest</string>
+    <string name="txtSubmit">Submit</string>
+    <string name="txtCancel">Cancel</string>
+</resources>
