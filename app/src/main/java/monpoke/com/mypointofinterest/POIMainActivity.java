@@ -24,13 +24,15 @@ public class POIMainActivity extends AppCompatActivity {
     // the adapter
     private ArrayAdapter<PointOfInterest> adapterForPoi;
 
+    // CREATE A MENU
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.game_menu, menu);
+        inflater.inflate(R.menu.the_menu, menu);
         return true;
     }
 
+    // WHEN A MENU ITEM HAS BEEN SELECTED
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
@@ -41,11 +43,11 @@ public class POIMainActivity extends AppCompatActivity {
         return true;
     }
 
-    // On result
+    // On result from another activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //Toast.makeText(getApplicationContext(),"returned",Toast.LENGTH_SHORT).show();
-        adapterForPoi.notifyDataSetChanged();
+        // REFRESH DATA
+        refreshData();
 
 
         if(requestCode==Codes.POI_MAIN){
@@ -70,7 +72,7 @@ public class POIMainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poimain);
 
@@ -93,6 +95,23 @@ public class POIMainActivity extends AppCompatActivity {
             }
         });
 
+
+        listpoi.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(),"Long click",Toast.LENGTH_LONG).show();
+
+                InfoPopupFragment infoPopupFragment = new InfoPopupFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("POI",listOFPOI.get(position)); // get current poi
+
+                infoPopupFragment.setArguments(bundle);
+
+                infoPopupFragment.show(getFragmentManager(),"dialog");
+
+                return true;
+            }
+        });
 
     }
 
@@ -126,6 +145,8 @@ public class POIMainActivity extends AppCompatActivity {
     }
 
 
-
-
+    // REFRESH LIST
+    public void refreshData() {
+        adapterForPoi.notifyDataSetChanged();
+    }
 }

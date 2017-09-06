@@ -1,10 +1,12 @@
 package monpoke.com.mypointofinterest.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by A643012 on 05/09/2017.
  */
 
-public class PointOfInterest {
+public class PointOfInterest implements Serializable {
 
     private String title;
 

@@ -2,6 +2,7 @@ package monpoke.com.mypointofinterest;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,6 +24,9 @@ public class AddActivity extends AppCompatActivity implements LocationListener {
 
     private TextView lblPosition;
     private LocationManager locationManager;
+
+    double geo_lat=0,geo_long=0;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -50,10 +54,12 @@ public class AddActivity extends AppCompatActivity implements LocationListener {
         Button btnSubmit = (Button) findViewById(R.id.btnsubmit);
         Button btnCancel = (Button) findViewById(R.id.btnCancel);
 
+        // CANCEL BUTTON
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Click", Toast.LENGTH_SHORT).show();
+                Intent returnIntent = new Intent();
+                setResult(Codes.CANCELED,returnIntent);
                 finish();
 
             }
@@ -74,12 +80,15 @@ public class AddActivity extends AppCompatActivity implements LocationListener {
                     return;
                 }
 
-                double geo_lat = 0, geo_long = 0;
-
                 PointOfInterest poi = new PointOfInterest(txttitle.getText().toString(), txtDescription.getText().toString(), geo_lat, geo_long);
                 poi.setRating(rating.getRating());
 
                 DBPoi.list.add(poi);
+
+                // SET RESULT OK
+                Intent returnIntent =  new Intent();
+                returnIntent.putExtra("poi",poi);
+                setResult(Codes.OK,returnIntent);
                 finish();
             }
         });
@@ -125,7 +134,11 @@ public class AddActivity extends AppCompatActivity implements LocationListener {
         }
 
     }
+
+    // Have to update
     private void updatePosition(Location location) {
+        geo_lat=location.getLatitude();
+        geo_long=location.getLongitude();
         lblPosition.setText("Lat: "+ location.getLatitude()+"; Long: "+ location.getLongitude());
     }
 

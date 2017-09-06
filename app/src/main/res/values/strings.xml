@@ -2,4 +2,6 @@
     <string name="app_name">MyPointOfInterest</string>
     <string name="txtSubmit">Submit</string>
     <string name="txtCancel">Cancel</string>
+    <string name="txtRemove">Remove</string>
+    <string name="create_poi">Create POI</string>
 </resources>
